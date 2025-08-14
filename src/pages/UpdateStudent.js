@@ -10,7 +10,7 @@ function UpdateStudent() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [student, setStudent] = useState(null);
-  const API = "http://localhost:5000/students";
+  const API = "https://stud-record-assingment-back.onrender.com/students";
 
   useEffect(() => {
     const fetchStudent = async () => {
