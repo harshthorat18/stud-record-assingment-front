@@ -5,7 +5,7 @@ import StudentForm from "../components/StudentForm";
 
 function CreateStudent() {
   const navigate = useNavigate();
-  const API = "http://localhost:5000/students";
+  const API = "https://stud-record-assingment-back.onrender.com/students";
 
   const handleSubmit = async (student) => {
     await axios.post(API, student);
