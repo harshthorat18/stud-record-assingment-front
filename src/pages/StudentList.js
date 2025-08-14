@@ -9,7 +9,7 @@ function StudentList() {
   const [students, setStudents] = useState([]);
   const [search, setSearch] = useState("");
   const [filterDivision, setFilterDivision] = useState("");
-  const API = "http://localhost:5000/students";
+  const API = "https://stud-record-assingment-back.onrender.com/students";
 
   const fetchStudents = async () => {
     const res = await axios.get(API);
