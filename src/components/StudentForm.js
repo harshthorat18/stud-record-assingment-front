@@ -1,6 +1,4 @@
-import React from "react";
-
-function StudentTable({ students, onEdit, onDelete }) {
+function StudentTable({ students = [], onEdit, onDelete }) {
   return (
     <table className="table table-bordered table-striped">
       <thead>
@@ -18,7 +16,7 @@ function StudentTable({ students, onEdit, onDelete }) {
         </tr>
       </thead>
       <tbody>
-        {students.map((student) => {
+        {students && students.map((student) => {
           let rowStyle = {};
           if (student.division === "First Division") {
             rowStyle = { backgroundColor: "#d4edda" }; // light green
@@ -29,7 +27,6 @@ function StudentTable({ students, onEdit, onDelete }) {
           } else {
             rowStyle = { backgroundColor: "#f8d7da" }; // light red
           }
-
           return (
             <tr key={student._id} style={rowStyle}>
               <td>{student.name}</td>
@@ -62,5 +59,3 @@ function StudentTable({ students, onEdit, onDelete }) {
     </table>
   );
 }
-
-export default StudentTable;
