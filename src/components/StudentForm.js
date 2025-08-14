@@ -1,177 +1,66 @@
-import React, { useState, useEffect } from "react";
-import { toast } from "react-toastify";
+import React from "react";
 
-function StudentForm({ onSubmit, editingStudent }) {
-  const [form, setForm] = useState({
-    name: "",
-    age: "",
-    english: "",
-    marathi: "",
-    math: "",
-    physics: "",
-    computer: "",
-  });
-
-  useEffect(() => {
-    if (editingStudent) setForm(editingStudent);
-  }, [editingStudent]);
-
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (
-      !form.name ||
-      !form.age ||
-      !form.english ||
-      !form.marathi ||
-      !form.math ||
-      !form.physics ||
-      !form.computer
-    ) {
-      toast.error("Please fill all fields correctly!");
-      return;
-    }
-
-    onSubmit(form);
-    toast.success(`Student ${editingStudent ? "updated" : "added"} successfully!`);
-
-    if (!editingStudent) {
-      setForm({
-        name: "",
-        age: "",
-        english: "",
-        marathi: "",
-        math: "",
-        physics: "",
-        computer: "",
-      });
-    }
-  };
-
+function StudentTable({ students, onEdit, onDelete }) {
   return (
-    <div className="card shadow p-4 mb-4 bg-light rounded">
-      <h3 className="text-primary mb-4">{editingStudent ? "Update Student" : "Add Student"}</h3>
-      <form onSubmit={handleSubmit}>
-        <div className="row g-3">
-          {/* Row 1 */}
-          <div className="col-md-6">
-            <label className="form-label">Name</label>
-            <input
-              type="text"
-              name="name"
-              value={form.name}
-              onChange={handleChange}
-              className="form-control"
-              placeholder="Enter name"
-              required
-            />
-          </div>
+    <table className="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Age</th>
+          <th>English</th>
+          <th>Marathi</th>
+          <th>Math</th>
+          <th>Physics</th>
+          <th>Computer</th>
+          <th>Percentage</th>
+          <th>Division</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {students.map((student) => {
+          let rowStyle = {};
+          if (student.division === "First Division") {
+            rowStyle = { backgroundColor: "#d4edda" }; // light green
+          } else if (student.division === "Second Division") {
+            rowStyle = { backgroundColor: "#d1ecf1" }; // light blue
+          } else if (student.division === "Third Division") {
+            rowStyle = { backgroundColor: "#fff3cd" }; // light yellow
+          } else {
+            rowStyle = { backgroundColor: "#f8d7da" }; // light red
+          }
 
-          <div className="col-md-6">
-            <label className="form-label">Age</label>
-            <input
-              type="number"
-              name="age"
-              value={form.age}
-              onChange={handleChange}
-              className="form-control"
-              placeholder="Enter age"
-              min="1"
-              required
-            />
-          </div>
-
-          {/* Row 2 */}
-          <div className="col-md-6">
-            <label className="form-label">English</label>
-            <input
-              type="number"
-              name="english"
-              value={form.english}
-              onChange={handleChange}
-              className="form-control"
-              placeholder="Marks 0-100"
-              min="0"
-              max="100"
-              required
-            />
-          </div>
-
-          <div className="col-md-6">
-            <label className="form-label">Marathi</label>
-            <input
-              type="number"
-              name="marathi"
-              value={form.marathi}
-              onChange={handleChange}
-              className="form-control"
-              placeholder="Marks 0-100"
-              min="0"
-              max="100"
-              required
-            />
-          </div>
-
-          {/* Row 3 */}
-          <div className="col-md-6">
-            <label className="form-label">Math</label>
-            <input
-              type="number"
-              name="math"
-              value={form.math}
-              onChange={handleChange}
-              className="form-control"
-              placeholder="Marks 0-100"
-              min="0"
-              max="100"
-              required
-            />
-          </div>
-
-          <div className="col-md-6">
-            <label className="form-label">Physics</label>
-            <input
-              type="number"
-              name="physics"
-              value={form.physics}
-              onChange={handleChange}
-              className="form-control"
-              placeholder="Marks 0-100"
-              min="0"
-              max="100"
-              required
-            />
-          </div>
-
-          {/* Row 4 */}
-          <div className="col-md-6">
-            <label className="form-label">Computer</label>
-            <input
-              type="number"
-              name="computer"
-              value={form.computer}
-              onChange={handleChange}
-              className="form-control"
-              placeholder="Marks 0-100"
-              min="0"
-              max="100"
-              required
-            />
-          </div>
-
-          <div className="col-md-6 d-flex align-items-end">
-            <button type="submit" className="btn btn-primary w-100">
-              {editingStudent ? "Update" : "Add"}
-            </button>
-          </div>
-        </div>
-      </form>
-    </div>
+          return (
+            <tr key={student._id} style={rowStyle}>
+              <td>{student.name}</td>
+              <td>{student.age}</td>
+              <td>{student.english}</td>
+              <td>{student.marathi}</td>
+              <td>{student.math}</td>
+              <td>{student.physics}</td>
+              <td>{student.computer}</td>
+              <td>{student.percentage}</td>
+              <td>{student.division}</td>
+              <td>
+                <button
+                  className="btn btn-warning btn-sm me-2"
+                  onClick={() => onEdit(student)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="btn btn-danger btn-sm"
+                  onClick={() => onDelete(student._id)}
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
   );
 }
 
-export default StudentForm;
+export default StudentTable;
